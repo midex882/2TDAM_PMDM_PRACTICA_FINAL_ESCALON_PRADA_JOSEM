@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "642420054307",
+    "firebase_url": "https://crud-cartas-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "crud-cartas",
+    "storage_bucket": "crud-cartas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642420054307:android:1c19088899b681bd87d496",
+        "android_client_info": {
+          "package_name": "com.example.practica_2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKmZeNSfUUW385ay-Zbm2EXhCfd_kSzx0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

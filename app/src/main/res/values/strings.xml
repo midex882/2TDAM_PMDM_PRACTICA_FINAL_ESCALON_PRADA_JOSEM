@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">practica_2</string>
+    <string name="root">tienda</string>
+    <string name="users">users</string>
+    <string name="cards">cards</string>
+    <string name="events">events</string>
+    <string name="card_reservations">card_reservations</string>
+    <string name="event_reservations">event_reservations</string>
+</resources>
