@@ -64,7 +64,16 @@ class CartaAdapter(private val game_list: MutableList<Carta>,context: Context): 
             val id = db_ref.child("tienda").child("carta").push().key
             val creation = System.currentTimeMillis().toInt()
 
-            val reservaCarta = ReservaCarta(id,  Utilities.getUserId(contexto),item_actual.id!!.toString(), creation)
+            val reservaCarta = Pedido(
+                id,
+                Utilities.getUserId(contexto),
+                item_actual.id,
+                null,
+                null,
+                null,
+                null,
+                creation
+            )
 
             Utilities.writeOrder(db_ref, reservaCarta, id!!)
         }

@@ -68,7 +68,7 @@ class Utilities {
                 }
         }
 
-        fun writeOrder(db_ref: DatabaseReference, reserva: ReservaCarta, id: String?) {
+        fun writeOrder(db_ref: DatabaseReference, reserva: Pedido, id: String?) {
 
 
             db_ref.child("tienda").child("reservaCarta").child(id!!).setValue(reserva)
