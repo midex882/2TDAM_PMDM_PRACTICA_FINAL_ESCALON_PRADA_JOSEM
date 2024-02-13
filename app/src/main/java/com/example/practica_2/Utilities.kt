@@ -17,6 +17,7 @@ import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class Utilities {
     companion object{
@@ -43,8 +44,12 @@ class Utilities {
             return Users.any{ it.username!!.lowercase()==nombre.lowercase()}
         }
 
-        fun cartaExists(Cartas : List<Carta>, nombre:String):Boolean{
+        fun cartaExists(Cartas: MutableList<Carta>, nombre:String):Boolean{
             return Cartas.any{ it.nombre!!.lowercase()==nombre.lowercase()}
+        }
+
+        fun eventExists(Eventos: MutableList<Evento>, nombre:String):Boolean{
+            return Eventos.any{ it.nombre!!.lowercase()==nombre.lowercase()}
         }
 
         fun logOut(context: Context){
@@ -87,6 +92,54 @@ class Utilities {
                         Log.v("help", "Order registered successfully")
                     } else {
                         Log.e("help", "Error creating order", task.exception)
+                    }
+                }
+        }
+
+        fun writeCarta(db_ref: DatabaseReference,
+                       id: String,
+                       title: String,
+                       platform: String,
+                       price: Float,
+                       available : Boolean,
+                       url_firebase: String) {
+            db_ref.child("tienda").child("carta").child(id).setValue(Carta(id, title, available, platform, price, url_firebase))
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.v("help", "Card created successfully")
+                    } else {
+                        Log.e("help", "Error creating card", task.exception)
+                    }
+                }
+        }
+
+        fun convertDateToTimestamp(dateString: String): Long {
+            val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val date = format.parse(dateString)
+            return date?.time ?: 0
+        }
+
+        fun writeEvent(db_ref: DatabaseReference,
+                       title: String,
+                       description: String,
+                       max_attendance: Int,
+                       date: Int ,
+                       id: String?,
+                       url_firebase: String) {
+            db_ref.child("tienda").child("evento").child(id!!).setValue(
+                Evento(id,
+                    title,
+                    description,
+                    max_attendance,
+                    0,
+                    url_firebase,
+                    date
+                    ))
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.v("help", "Event created successfully")
+                    } else {
+                        Log.e("help", "Error creating event", task.exception)
                     }
                 }
         }
@@ -138,49 +191,30 @@ class Utilities {
             return lista
         }
 
+        fun getEvents(db_ref: DatabaseReference):MutableList<Evento>{
+            var lista = mutableListOf<Evento>()
 
-//        inline fun <reified T : Any> get(domain: String, db_ref: DatabaseReference): MutableList<T> {
-//            val lista = mutableListOf<T>()
-//
-//            db_ref.child("tienda")
-//                .child(domain)
-//                .addValueEventListener(object : ValueEventListener {
-//                    override fun onDataChange(snapshot: DataSnapshot) {
-//                        snapshot.children.forEach { hijo: DataSnapshot ->
-//                            val pojo = hijo.getValue(T::class.java)
-//                            pojo?.let { lista.add(it) }
-//                        }
-//                    }
-//
-//                    override fun onCancelled(error: DatabaseError) {
-//                        println(error.message)
-//                    }
-//                })
-//
-//            return lista
-//        }
-
-
-//        fun writeCarta(db_ref: DatabaseReference, id: String, title: String, platform: String, rating: Int, creation: Int, url_firebase: String)=
-//            db_ref.child("FG").child("game").child(id).setValue(Carta(id, title, platform, rating, creation, url_firebase))
-//                .addOnCompleteListener { task ->
-//                    if (task.isSuccessful) {
-//                        Log.v("help", "Game created successfully")
-//                    } else {
-//                        Log.e("help", "Error creating game", task.exception)
-//                    }
-//                }
-
-            fun writeCarta(db_ref: DatabaseReference, id: String, title: String, platform: String, price: Float, available : Boolean, url_firebase: String) {
-                db_ref.child("tienda").child("carta").child(id).setValue(Carta(id, title, available, platform, price, url_firebase))
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Log.v("help", "Card created successfully")
-                        } else {
-                            Log.e("help", "Error creating card", task.exception)
+            db_ref.child("tienda")
+                .child("evento")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        snapshot.children.forEach{hijo :DataSnapshot ->
+                            val pojo_Game = hijo.getValue(Evento::class.java)
+                            lista.add(pojo_Game!!)
                         }
                     }
-            }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        println(error.message)
+                    }
+                })
+
+            return lista
+        }
+
+
+
+
 
         suspend fun saveCover(sto_ref: StorageReference, id:String, imagen: Uri):String{
             lateinit var firebase_cover_url: Uri

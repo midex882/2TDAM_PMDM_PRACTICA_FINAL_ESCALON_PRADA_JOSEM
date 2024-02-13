@@ -36,14 +36,40 @@
     </androidx.appcompat.widget.AppCompatButton>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnCreate"
+        android:id="@+id/btnEventos"
         app:layout_constraintTop_toBottomOf="@id/btnTienda"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Eventos"
+        android:background="@drawable/events_button_background"
+        android:layout_margin="20dp">
+    </androidx.appcompat.widget.AppCompatButton>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCreateCarta"
+        app:layout_constraintTop_toBottomOf="@id/btnEventos"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/spinner_background"
         android:textColor="@color/white"
         android:layout_margin="20dp"
+
         android:text="Crear carta"></androidx.appcompat.widget.AppCompatButton>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCreateEvent"
+        app:layout_constraintTop_toBottomOf="@id/btnCreateCarta"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/spinner_background"
+        android:textColor="@color/white"
+        android:layout_margin="20dp"
+
+        android:text="Crear evento"></androidx.appcompat.widget.AppCompatButton>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background shape -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="12dp" />
+            <solid android:color="@color/logo_red" /> <!-- Replace with your desired button color -->
+        </shape>
+    </item>
+
+    <!-- Shopping bag image -->
+    <item android:drawable="@drawable/calendar"
+        android:width="48dp"
+        android:height="48dp">
+        <!-- Adjust the padding to position the image -->
+        <padding
+            android:top="8dp"
+            android:right="8dp"
+            android:bottom="8dp"
+            android:left="8dp" />
+    </item>
+</layer-list>

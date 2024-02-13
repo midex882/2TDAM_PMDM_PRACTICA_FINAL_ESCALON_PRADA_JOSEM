@@ -22,6 +22,12 @@ class UserArea : AppCompatActivity(){
     lateinit var db_ref : com.google.firebase.database.DatabaseReference
     lateinit var logOutButton : Button
 
+    override fun onBackPressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_area)
@@ -32,6 +38,7 @@ class UserArea : AppCompatActivity(){
             Utilities.logOut(this)
             val intent = Intent(this, MainActivity::class.java) //cambiar por la actividad de login
             startActivity(intent)
+            finish()
         }
 
         db_ref = FirebaseDatabase.getInstance().getReference()

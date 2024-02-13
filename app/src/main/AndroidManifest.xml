@@ -34,6 +34,12 @@
         <activity android:name=".UserArea"
             android:exported="false">
         </activity>
+        <activity android:name=".ListEvents"
+            android:exported="false">
+        </activity>
+        <activity android:name=".CreateEvento"
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>

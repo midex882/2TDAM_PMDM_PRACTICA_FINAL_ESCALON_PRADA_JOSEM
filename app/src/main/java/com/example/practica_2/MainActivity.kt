@@ -10,7 +10,9 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var btnTienda : Button
     lateinit var btnLogin : Button
-    lateinit var btnCreate : Button
+    lateinit var btnCreateCarta : Button
+    lateinit var btnEvents: Button
+    lateinit var btnCreateEvent: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,28 +28,41 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnTienda = findViewById(R.id.btnTienda)
-        btnCreate = findViewById(R.id.btnCreate)
+        btnCreateCarta = findViewById(R.id.btnCreateCarta)
+        btnEvents = findViewById(R.id.btnEventos)
+        btnCreateEvent = findViewById(R.id.btnCreateEvent)
 
         if(Utilities.checkAdminStatus(this))
         {
-            btnCreate.visibility = View.VISIBLE
+            btnCreateCarta.visibility = View.VISIBLE
+            btnCreateEvent.visibility = View.VISIBLE
         }else{
-            btnCreate.visibility = View.INVISIBLE
+            btnCreateCarta.visibility = View.INVISIBLE
+            btnCreateEvent.visibility = View.INVISIBLE
         }
-
-//        btnTienda.setOnClickListener {
-//            val intent = Intent(this, Tienda::class.java)
-//            startActivity(intent)
-//        }
 
         btnTienda.setOnClickListener {
             val intent = Intent(this, ListCartas::class.java)
             startActivity(intent)
+            finish()
         }
 
-        btnCreate.setOnClickListener {
+        btnCreateCarta.setOnClickListener {
             val intent = Intent(this, CreateCarta::class.java)
             startActivity(intent)
+            finish()
+        }
+
+        btnEvents.setOnClickListener {
+            val intent = Intent(this, ListEvents::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        btnCreateEvent.setOnClickListener {
+            val intent = Intent(this, CreateEvento::class.java)
+            startActivity(intent)
+            finish()
         }
 
 

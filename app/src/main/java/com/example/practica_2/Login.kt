@@ -1,6 +1,7 @@
 package com.example.practica_2
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -31,6 +32,11 @@ class Login : AppCompatActivity(), CoroutineScope {
             return Dispatchers.IO + job
         }
 
+    override fun onBackPressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

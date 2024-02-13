@@ -1,15 +1,14 @@
 package com.example.practica_2
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import androidx.activity.result.contract.ActivityResultContracts
-import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -52,6 +51,11 @@ class CreateCarta : AppCompatActivity(), CoroutineScope {
             cover_ImageView.setImageURI(uri)
         }
     }
+    override fun onBackPressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +75,8 @@ class CreateCarta : AppCompatActivity(), CoroutineScope {
         cover_ImageView.setOnClickListener {
             gallery_access.launch("image/*")
         }
+
+
 
         createButton.setOnClickListener {
 

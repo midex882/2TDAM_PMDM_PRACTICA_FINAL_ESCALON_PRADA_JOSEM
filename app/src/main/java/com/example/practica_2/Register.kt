@@ -1,5 +1,6 @@
 package com.example.practica_2
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -24,6 +25,12 @@ class Register : AppCompatActivity(), CoroutineScope {
         get() {
             return Dispatchers.IO + job
         }
+
+    override fun onBackPressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

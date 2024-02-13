@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dark_grey"
+    android:padding="10dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/pictureCard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/dark_grey">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="10dp"
+            android:layout_gravity="center"
+            android:background="@color/dark_grey"
+            >
+
+            <ImageView
+                android:id="@+id/picture"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:src="@drawable/evento_ejemplo"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/titleLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/pictureCard"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="Evento de prueba"
+        android:textColor="@color/white"
+        android:layout_marginRight="10dp"
+        android:singleLine="false"
+        android:scrollHorizontally="false"
+        android:textSize="16sp"></TextView>
+
+    <TextView
+        android:id="@+id/platformLayout"
+        app:layout_constraintTop_toBottomOf="@id/titleLayout"
+        app:layout_constraintStart_toEndOf="@id/pictureCard"
+        android:layout_marginLeft="20dp"
+        android:text="Evento para jugar y comer platanos"
+        android:textColor="@color/light_grey"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"></TextView>
+
+    <TextView
+        android:id="@+id/dateLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="23/05/2024"
+        android:textColor="@color/white"
+        ></TextView>
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buyButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reservar"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:background="@drawable/buy_button_background">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
