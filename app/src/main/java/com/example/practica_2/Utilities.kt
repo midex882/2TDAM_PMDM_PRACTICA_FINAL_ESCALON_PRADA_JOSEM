@@ -36,7 +36,7 @@ class Utilities {
         fun getUserId(context: Context): String {
             val sharedPreferencesFileName = "UserPreferences"
             val sharedPreferences: SharedPreferences = context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE)
-            return sharedPreferences.getString("KEY_ID", "").toString()
+            return sharedPreferences.getString("KEY_USERID", "").toString()
         }
 
         fun userExists(Users : List<Usuario>, nombre:String):Boolean{
@@ -45,6 +45,16 @@ class Utilities {
 
         fun cartaExists(Cartas : List<Carta>, nombre:String):Boolean{
             return Cartas.any{ it.nombre!!.lowercase()==nombre.lowercase()}
+        }
+
+        fun logOut(context: Context){
+            val sharedPreferencesFileName = "UserPreferences"
+            val sharedPreferences: SharedPreferences = context.getSharedPreferences(sharedPreferencesFileName, Context.MODE_PRIVATE)
+            val editor: SharedPreferences.Editor = sharedPreferences.edit()
+            editor.putString("KEY_USERNAME", "")
+            editor.putString("KEY_USERID", "")
+            editor.putString("KEY_ROLE", "")
+            editor.apply()
         }
 
 //        fun howManyGames(Games : List<Game>, nombre:String):Int{
@@ -93,6 +103,7 @@ class Utilities {
                         snapshot.children.forEach{hijo :DataSnapshot ->
                             val pojo_Game = hijo.getValue(Usuario::class.java)
                             lista.add(pojo_Game!!)
+
                         }
                     }
 
@@ -100,6 +111,8 @@ class Utilities {
                         println(error.message)
                     }
                 })
+
+
 
             return lista
         }

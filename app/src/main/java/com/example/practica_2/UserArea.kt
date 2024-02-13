@@ -2,6 +2,7 @@ package com.example.practica_2
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,28 +20,27 @@ class UserArea : AppCompatActivity(){
     lateinit var userNameTextView : TextView
     lateinit var recycler: androidx.recyclerview.widget.RecyclerView
     lateinit var db_ref : com.google.firebase.database.DatabaseReference
+    lateinit var logOutButton : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_area)
 
-        var userId = Utilities.getUserId(this)
+        logOutButton = findViewById(R.id.logOutButton)
 
-        var adaptador = ReservaCartaAdapter(mutableListOf(), this)
+        logOutButton.setOnClickListener {
+            Utilities.logOut(this)
+            val intent = Intent(this, MainActivity::class.java) //cambiar por la actividad de login
+            startActivity(intent)
+        }
 
-        userNameTextView = findViewById(R.id.userName)
-
-        userNameTextView.text = Utilities.getUserName(this)
-
-        val pojo_usuario:Usuario = intent.getParcelableExtra<Usuario>("usuario")!!
-        val pojo_carta : Carta = intent.getParcelableExtra<Carta>("carta")!!
-
-        db_ref= FirebaseDatabase.getInstance().getReference()
+        db_ref = FirebaseDatabase.getInstance().getReference()
 
         var lista= mutableListOf<Pedido>()
+        var userId = Utilities.getUserId(this)
 
         db_ref.child("tienda")
-            .child("pedido")
+            .child("reservaCarta")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     lista.clear()
@@ -60,14 +60,17 @@ class UserArea : AppCompatActivity(){
                                         override fun onDataChange(snapshot: DataSnapshot) {
                                             pojo_carta = snapshot!!.getValue(Carta::class.java)!!
 
-//                                            pojo_carta.id= pojo_pedido.id_carta.toString()
-
                                             pojo_pedido.imagen = pojo_carta.imagen
                                             pojo_pedido.precio = pojo_carta.precio
                                             pojo_pedido.nombre_carta = pojo_carta.nombre
 
                                             lista.add(pojo_pedido)
                                             semaforo.countDown()
+
+                                            // Update RecyclerView adapter here
+                                            runOnUiThread {
+                                                recycler.adapter?.notifyDataSetChanged()
+                                            }
                                         }
 
                                         override fun onCancelled(error: DatabaseError) {
@@ -78,11 +81,6 @@ class UserArea : AppCompatActivity(){
 
                             }
                         }
-
-                        runOnUiThread {
-                            recycler.adapter?.notifyDataSetChanged()
-
-                        }
                     }
                 }
 
@@ -91,12 +89,22 @@ class UserArea : AppCompatActivity(){
                 }
             })
 
+
+        var adaptador = ReservaCartaAdapter(lista, this)
+
+
+        userNameTextView = findViewById(R.id.userName)
+
+        userNameTextView.text = Utilities.getUserName(this)
+
+        db_ref= FirebaseDatabase.getInstance().getReference()
+
+
+
         recycler=findViewById(R.id.OrdersRecyclerView)
-        recycler.adapter=ReservaCartaAdapter(lista, this)
-        recycler.layoutManager= LinearLayoutManager(applicationContext)
+        recycler.adapter = adaptador
+        recycler.layoutManager= LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL,false)
         recycler.setHasFixedSize(true)
 
     }
-
-
 }

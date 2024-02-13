@@ -44,7 +44,7 @@ class Register : AppCompatActivity(), CoroutineScope {
             var email = emailInputEdit.text.toString()
             val id = db_ref.child("tienda").child("usuario").push().key
             var user = Usuario(id,name, username, email, password, false)
-
+            Log.v("registrando usuario: ", user.toString())
             db_ref = FirebaseDatabase.getInstance().getReference()
 
             launch {

@@ -59,6 +59,7 @@ class Login : AppCompatActivity(), CoroutineScope {
             var password = passwordInputEdit.text.toString()
 
             if(Utilities.userExists(user_list, username)){
+                Log.v("user_list", user_list.toString())
                 var user = user_list.filter { it.username == username }.first()
                 if(user.contrasena == password){
                     Toast.makeText(

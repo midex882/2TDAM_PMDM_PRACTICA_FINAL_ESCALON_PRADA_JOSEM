@@ -1,6 +1,7 @@
 package com.example.practica_2
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,8 @@ class CartaAdapter(private val game_list: MutableList<Carta>,context: Context): 
 
     override fun onBindViewHolder(holder: CartaAdapter.CartaViewHolder, position: Int) {
         val item_actual = lista_filtrada[position]
+
+        Log.v("item_actual", item_actual.toString())
         holder.title.text = item_actual.nombre
         holder.platform.text = item_actual.categoria
         holder.price.text = item_actual.precio!!.toInt().toFloat().toString()+"€"
@@ -61,13 +64,18 @@ class CartaAdapter(private val game_list: MutableList<Carta>,context: Context): 
 //        }
 
         holder.buy.setOnClickListener {
-            val id = db_ref.child("tienda").child("carta").push().key
+            Log.v("item_actual",item_actual.toString())
+            val id = db_ref.child("tienda").child("reservaCarta").push().key
             val creation = System.currentTimeMillis().toInt()
+
+            Log.v("userId", Utilities.getUserId(contexto))
+            Log.v("username", Utilities.getUserName(contexto))
+            Log.v("lista_users", Utilities.getUsers(db_ref).toString())
 
             val reservaCarta = Pedido(
                 id,
                 Utilities.getUserId(contexto),
-                item_actual.id,
+                item_actual.id,  // This assumes item_actual.id is the ID of the carta
                 null,
                 null,
                 null,
@@ -77,6 +85,7 @@ class CartaAdapter(private val game_list: MutableList<Carta>,context: Context): 
 
             Utilities.writeOrder(db_ref, reservaCarta, id!!)
         }
+
 
 
 

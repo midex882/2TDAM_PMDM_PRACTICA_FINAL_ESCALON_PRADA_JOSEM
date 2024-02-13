@@ -51,12 +51,23 @@
         <androidx.recyclerview.widget.RecyclerView
             app:layout_constraintTop_toBottomOf="@id/ordersTextView"
             app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/recyclerView"
+            android:id="@+id/OrdersRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:listitem="@layout/carta"
             android:orientation="horizontal"
             ></androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/logOutButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:text="Cerrar sesión"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@drawable/log_out_button_background"
+        android:layout_height="wrap_content"></androidx.appcompat.widget.AppCompatButton>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

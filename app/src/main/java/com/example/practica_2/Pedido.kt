@@ -11,4 +11,5 @@ class Pedido(var id: String?,
              var precio: Float?,
              var imagen : String?,
              var time: Int?) : Parcelable {
+    constructor() : this(null,"","","","",0.0F,"",0)
 }
