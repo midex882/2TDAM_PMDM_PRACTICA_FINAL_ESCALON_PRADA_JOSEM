@@ -1,6 +1,7 @@
 package com.example.practica_2
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -36,9 +37,9 @@ class CartaAdapter(private val game_list: MutableList<Carta>,private val activit
         holder.price.text = item_actual.precio!!.toInt().toFloat().toString()+"€"
         if(Utilities.checkAdminStatus(contexto))
         {
-            holder.unavailable.visibility = View.VISIBLE
+            holder.edit.visibility = View.VISIBLE
         }else{
-            holder.unavailable.visibility = View.INVISIBLE
+            holder.edit.visibility = View.INVISIBLE
         }
 
 
@@ -87,6 +88,12 @@ class CartaAdapter(private val game_list: MutableList<Carta>,private val activit
             Utilities.writeOrder(db_ref, reservaCarta, id!!, activity)
         }
 
+        holder.edit.setOnClickListener {
+            val activity = Intent(contexto,EditCarta::class.java)
+            activity.putExtra("carta", item_actual)
+            contexto.startActivity(activity)
+        }
+
 
 
 
@@ -102,7 +109,7 @@ class CartaAdapter(private val game_list: MutableList<Carta>,private val activit
         val platform: TextView = itemView.findViewById(R.id.platformLayout)
         val price: TextView = itemView.findViewById(R.id.priceLayout)
         val buy : Button = itemView.findViewById(R.id.buyButton)
-        val unavailable: ImageView = itemView.findViewById(R.id.unavailable)
+        val edit: ImageView = itemView.findViewById(R.id.edit)
     }
 
 //    override fun getFilter(): Filter {

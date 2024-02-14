@@ -1,6 +1,7 @@
 package com.example.practica_2
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.database.FirebaseDatabase
@@ -37,6 +39,14 @@ class EventoAdapter(private val game_list: MutableList<Evento>,var activity: App
             else -> item_actual.imagen!!
         }
 
+        if(Utilities.checkAdminStatus(contexto))
+        {
+            holder.edit.visibility = View.VISIBLE
+        }else{
+            holder.edit.visibility = View.INVISIBLE
+
+        }
+
         Glide.with(contexto)
             .load(URL)
             .apply(Utilities.opcionesGlide(contexto))
@@ -60,6 +70,12 @@ class EventoAdapter(private val game_list: MutableList<Evento>,var activity: App
             Utilities.writeReservaEvento(db_ref, reservaEvento, id!!, activity)
         }
 
+        holder.edit.setOnClickListener {
+            val activity = Intent(contexto,EditEvento::class.java)
+            activity.putExtra("evento", item_actual)
+            contexto.startActivity(activity)
+        }
+
     }
 
     override fun getItemCount(): Int = lista_filtrada.size
@@ -69,6 +85,7 @@ class EventoAdapter(private val game_list: MutableList<Evento>,var activity: App
         val title: TextView = itemView.findViewById(R.id.titleLayout)
         val platform: TextView = itemView.findViewById(R.id.platformLayout)
         val price: TextView = itemView.findViewById(R.id.dateLayout)
+        val edit : CardView = itemView.findViewById(R.id.edit)
         val buy: Button = itemView.findViewById(R.id.buyButton)
     }
 

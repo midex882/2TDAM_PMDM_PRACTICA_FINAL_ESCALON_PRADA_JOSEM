@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.tasks.await
+import java.sql.Date
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -46,6 +47,16 @@ class Utilities {
 
         fun cartaExists(Cartas: MutableList<Carta>, nombre:String):Boolean{
             return Cartas.any{ it.nombre!!.lowercase()==nombre.lowercase()}
+        }
+
+
+
+        fun howManyCartas(Cartas : List<Carta>, nombre:String):Int{
+            return Cartas.filter { it.nombre == nombre }.size
+        }
+
+        fun howManyEvents(Eventos: MutableList<Carta>, nombre:String):Int{
+            return Eventos.filter { it.nombre == nombre }.size
         }
 
         fun eventExists(Eventos: MutableList<Evento>, nombre:String):Boolean{
@@ -129,7 +140,14 @@ class Utilities {
         fun convertDateToTimestamp(dateString: String): Long {
             val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val date = format.parse(dateString)
-            return date?.time ?: 0
+            val time = date?.time ?: 0
+            return Math.abs(time)
+        }
+
+        fun convertTimestampToDate(timestamp: Int): String {
+            val date = Date(timestamp.toLong())
+            val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            return format.format(date)
         }
 
         fun writeEvent(db_ref: DatabaseReference,

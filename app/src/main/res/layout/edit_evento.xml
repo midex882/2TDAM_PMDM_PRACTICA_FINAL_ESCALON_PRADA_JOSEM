@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background"
+    android:padding="20dp">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintGuide_percent="0.5"
+        android:orientation="vertical"></androidx.constraintlayout.widget.Guideline>
+
+
+    <ImageView
+        android:id="@+id/cover"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/camara"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nameLayout"
+        app:layout_constraintTop_toBottomOf="@id/cover"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:errorEnabled="true"
+        android:textColorHint="@color/cream"
+        android:textColorHighlight="@color/cream"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nameEdit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Título"
+            android:background="@color/dark_grey"
+            android:textColor="@color/cream"
+            android:textColorHighlight="@color/cream">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/platformLayout"
+        app:layout_constraintTop_toBottomOf="@id/nameLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_margin="2dp"
+        app:errorEnabled="true"
+        android:textColorHint="@color/cream"
+        android:textColorHighlight="@color/cream"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/descriptionEdit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Descripcion"
+            android:background="@color/dark_grey"
+            android:textColor="@color/cream"
+            android:textColorHighlight="@color/cream">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/numberLayout"
+        app:layout_constraintTop_toBottomOf="@id/platformLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_margin="2dp"
+        app:errorEnabled="true"
+        android:textColorHint="@color/cream"
+        android:textColorHighlight="@color/cream"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/numberEdit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Aforo máximo"
+            android:background="@color/dark_grey"
+            android:textColor="@color/cream"
+            android:inputType="number"
+            android:textColorHighlight="@color/cream">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/numberLayout"
+        android:id="@+id/dateEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fecha"
+        android:padding="20dp"
+        android:inputType="numberDecimal"
+        android:background="@color/dark_grey"
+        android:textColor="@color/cream"
+        android:textColorHighlight="@color/cream">
+
+    </TextView>
+
+    <ImageView
+        android:id="@+id/edit"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/edit_confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"></ImageView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

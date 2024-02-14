@@ -116,11 +116,11 @@
     </androidx.appcompat.widget.AppCompatButton>
 
     <ImageView
-        android:id="@+id/unavailable"
+        android:id="@+id/edit"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/forbidden"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"></ImageView>
+        android:src="@drawable/edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
