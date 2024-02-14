@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var btnCreateCarta : Button
     lateinit var btnEvents: Button
     lateinit var btnCreateEvent: Button
+    lateinit var btnUsers: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,26 +26,30 @@ class MainActivity : AppCompatActivity() {
         if(!Utilities.userLogged(this)){
             val intent = Intent(this, Login::class.java)
             startActivity(intent)
+            recreate()
         }
 
         btnTienda = findViewById(R.id.btnTienda)
         btnCreateCarta = findViewById(R.id.btnCreateCarta)
         btnEvents = findViewById(R.id.btnEventos)
         btnCreateEvent = findViewById(R.id.btnCreateEvent)
+        btnUsers = findViewById(R.id.btnListUsers)
 
         if(Utilities.checkAdminStatus(this))
         {
             btnCreateCarta.visibility = View.VISIBLE
             btnCreateEvent.visibility = View.VISIBLE
+            btnUsers.visibility = View.VISIBLE
         }else{
             btnCreateCarta.visibility = View.INVISIBLE
             btnCreateEvent.visibility = View.INVISIBLE
+            btnUsers.visibility = View.INVISIBLE
         }
 
         btnTienda.setOnClickListener {
             val intent = Intent(this, ListCartas::class.java)
             startActivity(intent)
-            finish()
+            recreate()
         }
 
         btnCreateCarta.setOnClickListener {
@@ -61,6 +66,12 @@ class MainActivity : AppCompatActivity() {
 
         btnCreateEvent.setOnClickListener {
             val intent = Intent(this, CreateEvento::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        btnUsers.setOnClickListener {
+            val intent = Intent(this, ListUsers::class.java)
             startActivity(intent)
             finish()
         }

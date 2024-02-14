@@ -1,7 +1,6 @@
 package com.example.practica_2
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +9,12 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.database.FirebaseDatabase
 
-class EventoAdapter(private val game_list: MutableList<Evento>,context: Context): RecyclerView.Adapter<EventoAdapter.EventoViewHolder>(), Filterable {
+class EventoAdapter(private val game_list: MutableList<Evento>,var activity: AppCompatActivity): RecyclerView.Adapter<EventoAdapter.EventoViewHolder>(), Filterable {
     private lateinit var contexto: Context
     private var lista_filtrada = game_list
     private var db_ref = FirebaseDatabase.getInstance().getReference()
@@ -43,23 +43,22 @@ class EventoAdapter(private val game_list: MutableList<Evento>,context: Context)
             .transition(Utilities.transicion)
             .into(holder.cover)
 //
-//        holder.buy.setOnClickListener {
-//            val id = db_ref.child("tienda").child("reservaEvento").push().key
-//            val creation = System.currentTimeMillis().toInt()
-//
-//            val reservaCarta = Pedido(
-//                id,
-//                Utilities.getUserId(contexto),
-//                item_actual.id,  // This assumes item_actual.id is the ID of the evento
-//                null,
-//                null,
-//                null,
-//                null,
-//                creation
-//            )
-//
-//            Utilities.writeOrder(db_ref, reservaCarta, id!!)
-//        }
+        holder.buy.setOnClickListener {
+            val id = db_ref.child("tienda").child("reservaEvento").push().key
+            val creation = System.currentTimeMillis().toInt()
+
+            val reservaEvento = ReservaEvento(
+                id,
+                Utilities.getUserId(contexto),
+                item_actual.id,  // This assumes item_actual.id is the ID of the evento
+                null,
+                null,
+                null,
+                null,
+            )
+
+            Utilities.writeReservaEvento(db_ref, reservaEvento, id!!, activity)
+        }
 
     }
 

@@ -40,6 +40,9 @@
         <activity android:name=".CreateEvento"
             android:exported="false">
         </activity>
+        <activity android:name=".ListUsers"
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>

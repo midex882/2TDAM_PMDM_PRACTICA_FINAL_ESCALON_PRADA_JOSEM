@@ -10,11 +10,12 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.FirebaseDatabase
 
-class CartaAdapter(private val game_list: MutableList<Carta>,context: Context): RecyclerView.Adapter<CartaAdapter.CartaViewHolder>(), Filterable {
+class CartaAdapter(private val game_list: MutableList<Carta>,private val activity: AppCompatActivity): RecyclerView.Adapter<CartaAdapter.CartaViewHolder>(), Filterable {
     private lateinit var contexto: Context
     private var lista_filtrada = game_list
     private var db_ref = FirebaseDatabase.getInstance().getReference()
@@ -83,7 +84,7 @@ class CartaAdapter(private val game_list: MutableList<Carta>,context: Context): 
                 creation
             )
 
-            Utilities.writeOrder(db_ref, reservaCarta, id!!)
+            Utilities.writeOrder(db_ref, reservaCarta, id!!, activity)
         }
 
 

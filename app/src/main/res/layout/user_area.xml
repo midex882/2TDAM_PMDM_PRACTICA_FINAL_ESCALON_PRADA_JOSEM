@@ -54,7 +54,7 @@
             android:id="@+id/OrdersRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/carta"
+            tools:listitem="@layout/pedido_carta"
             android:orientation="horizontal"
             ></androidx.recyclerview.widget.RecyclerView>
 

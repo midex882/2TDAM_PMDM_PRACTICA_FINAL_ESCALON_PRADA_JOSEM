@@ -70,6 +70,17 @@
 
         android:text="Crear evento"></androidx.appcompat.widget.AppCompatButton>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnListUsers"
+        app:layout_constraintTop_toBottomOf="@id/btnCreateEvent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/spinner_background"
+        android:textColor="@color/white"
+        android:layout_margin="20dp"
+
+        android:text="Lista de usuarios"></androidx.appcompat.widget.AppCompatButton>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

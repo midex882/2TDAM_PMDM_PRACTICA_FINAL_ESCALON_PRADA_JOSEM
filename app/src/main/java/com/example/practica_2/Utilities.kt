@@ -83,13 +83,26 @@ class Utilities {
                 }
         }
 
-        fun writeOrder(db_ref: DatabaseReference, reserva: Pedido, id: String?) {
-
-
+        fun writeOrder(db_ref: DatabaseReference, reserva: Pedido, id: String?, activity: AppCompatActivity) {
             db_ref.child("tienda").child("reservaCarta").child(id!!).setValue(reserva)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.v("help", "Order registered successfully")
+                        activity.runOnUiThread {
+                            toastCoroutine(activity, activity, "Order registered successfully")
+                        }
+                    } else {
+                        Log.e("help", "Error creating order", task.exception)
+                    }
+                }
+        }
+
+        fun writeReservaEvento(db_ref: DatabaseReference, reserva: ReservaEvento, id: String, activity: AppCompatActivity) {
+            db_ref.child("tienda").child("reservaEvento").child(id).setValue(reserva)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.v("help", "Reserva registrada con éxito")
+                        toastCoroutine(activity, activity, "Reserva registrada con éxito")
                     } else {
                         Log.e("help", "Error creating order", task.exception)
                     }
@@ -138,6 +151,7 @@ class Utilities {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.v("help", "Event created successfully")
+
                     } else {
                         Log.e("help", "Error creating event", task.exception)
                     }
