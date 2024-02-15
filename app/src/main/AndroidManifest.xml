@@ -49,6 +49,12 @@
         <activity android:name=".EditEvento"
             android:exported="false">
         </activity>
+        <activity android:name=".Creator"
+            android:exported="false">
+        </activity>
+        <activity android:name=".Configuracion"
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>

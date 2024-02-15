@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var btnEvents: Button
     lateinit var btnCreateEvent: Button
     lateinit var btnUsers: Button
+    lateinit var btnCreator: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         btnEvents = findViewById(R.id.btnEventos)
         btnCreateEvent = findViewById(R.id.btnCreateEvent)
         btnUsers = findViewById(R.id.btnListUsers)
+        btnCreator = findViewById(R.id.btnCreator)
 
         if(Utilities.checkAdminStatus(this))
         {
@@ -77,6 +79,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        btnCreator.setOnClickListener {
+            val intent = Intent(this, Creator::class.java)
+            startActivity(intent)
+            finish()
+        }
+
 
 
     }

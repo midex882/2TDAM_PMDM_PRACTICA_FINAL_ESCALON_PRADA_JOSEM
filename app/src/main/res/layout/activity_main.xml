@@ -53,8 +53,20 @@
         </androidx.appcompat.widget.AppCompatButton>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnCreateCarta"
+            android:id="@+id/btnCreator"
             app:layout_constraintTop_toBottomOf="@id/btnEventos"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Creador de la app"
+            android:background="@drawable/creator_button_background"
+            android:textColor="@color/white"
+            android:layout_margin="20dp">
+        </androidx.appcompat.widget.AppCompatButton>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCreateCarta"
+            app:layout_constraintTop_toBottomOf="@id/btnCreator"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

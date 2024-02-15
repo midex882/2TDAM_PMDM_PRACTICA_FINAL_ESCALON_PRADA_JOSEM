@@ -1,9 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Practica_2" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Theme.Practica_2" parent="Theme.Material3.DayNight.NoActionBar">
+        <item   name="backgroundColor">@color/white</item>
+        <item name="textFillColor">@color/black</item>
     </style>
 
-    <style name="Theme.Practica_2" parent="Base.Theme.Practica_2" />
+    <style name="Theme.Practica_2.Night" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="backgroundColor">@color/background</item>
+        <item name="textFillColor">@color/white</item>
+    </style>
 </resources>

@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class ListUsers : AppCompatActivity(){
+class  ListUsers : AppCompatActivity(){
     private lateinit var searchEditText: EditText
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: EventoAdapter

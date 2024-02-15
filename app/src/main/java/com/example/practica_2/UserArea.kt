@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,7 @@ class UserArea : AppCompatActivity(){
     lateinit var recyclerEvents: androidx.recyclerview.widget.RecyclerView
     lateinit var db_ref : com.google.firebase.database.DatabaseReference
     lateinit var logOutButton : Button
+    lateinit var configurationButton : ImageView
 
     override fun onBackPressed() {
         val intent = Intent(this, MainActivity::class.java)
@@ -36,6 +38,7 @@ class UserArea : AppCompatActivity(){
         setContentView(R.layout.user_area)
 
         lateinit var userId : String
+        configurationButton = findViewById(R.id.configurationButton)
 
         userNameTextView = findViewById(R.id.userName)
 
@@ -47,6 +50,7 @@ class UserArea : AppCompatActivity(){
             Log.v("UserArea", "UserArea has user_id")
             userId = intent.getStringExtra("user_id")!!
             logOutButton.visibility = Button.INVISIBLE
+            configurationButton.visibility = Button.INVISIBLE
             userNameTextView.text = intent.getStringExtra("username")!!
         } else {
             userId = Utilities.getUserId(this)
@@ -55,7 +59,10 @@ class UserArea : AppCompatActivity(){
             userNameTextView.text = Utilities.getUserName(this)
         }
 
-
+        configurationButton.setOnClickListener {
+            val intent = Intent(this, Configuracion::class.java)
+            startActivity(intent)
+        }
 
         logOutButton.setOnClickListener {
             Utilities.logOut(this)
