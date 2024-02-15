@@ -66,7 +66,7 @@ class EditEvento : AppCompatActivity(), CoroutineScope {
 
         titleEdit.setText(pojo_evento.nombre)
         descriptionEdit.setText(pojo_evento.descripcion)
-        dateLayout.setText(Utilities.convertTimestampToDate(pojo_evento.fecha!!))
+        dateLayout.setText(Utilities.convertTimestampToDate(pojo_evento.fecha!!.toString()))
         maxAttendance.setText(pojo_evento.aforo_max.toString())
 
         dateLayout.setOnClickListener {
@@ -126,7 +126,7 @@ class EditEvento : AppCompatActivity(), CoroutineScope {
                             Utilities.saveCover(st_ref, pojo_evento.id!!, url_cover!!)
                     }
 
-                    var date = Utilities.convertDateToTimestamp(dateLayout.text.toString()).toInt()
+                    var date = Utilities.convertDateToTimestamp(dateLayout.text.toString())
 
 
                     Utilities.writeEvent(

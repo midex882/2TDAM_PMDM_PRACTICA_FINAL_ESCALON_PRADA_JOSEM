@@ -4,4 +4,6 @@ class ReservaEvento(var id: String?, var id_usuario: String, var id_evento: Stri
     override fun toString(): String {
         return "Reserva_evento(id=$id, id_usuario=$id_usuario, id_evento=$id_evento)"
     }
+
+    constructor():this("", "", "", "", "", "", "")
 }

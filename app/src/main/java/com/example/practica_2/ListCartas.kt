@@ -33,6 +33,12 @@ class ListCartas : AppCompatActivity() {
     private lateinit var db_ref: DatabaseReference
 
 
+    override fun onBackPressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_cards)

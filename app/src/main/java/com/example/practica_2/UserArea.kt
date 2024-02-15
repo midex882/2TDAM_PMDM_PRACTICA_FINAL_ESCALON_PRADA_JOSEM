@@ -2,10 +2,12 @@ package com.example.practica_2
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -18,7 +20,8 @@ import java.util.concurrent.CountDownLatch
 class UserArea : AppCompatActivity(){
 
     lateinit var userNameTextView : TextView
-    lateinit var recycler: androidx.recyclerview.widget.RecyclerView
+    lateinit var recyclerOrders: androidx.recyclerview.widget.RecyclerView
+    lateinit var recyclerEvents: androidx.recyclerview.widget.RecyclerView
     lateinit var db_ref : com.google.firebase.database.DatabaseReference
     lateinit var logOutButton : Button
 
@@ -32,7 +35,27 @@ class UserArea : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_area)
 
+        lateinit var userId : String
+
+        userNameTextView = findViewById(R.id.userName)
+
+
         logOutButton = findViewById(R.id.logOutButton)
+
+        val intent = getIntent()
+        if (intent.hasExtra("user_id")) {
+            Log.v("UserArea", "UserArea has user_id")
+            userId = intent.getStringExtra("user_id")!!
+            logOutButton.visibility = Button.INVISIBLE
+            userNameTextView.text = intent.getStringExtra("username")!!
+        } else {
+            userId = Utilities.getUserId(this)
+
+
+            userNameTextView.text = Utilities.getUserName(this)
+        }
+
+
 
         logOutButton.setOnClickListener {
             Utilities.logOut(this)
@@ -44,7 +67,9 @@ class UserArea : AppCompatActivity(){
         db_ref = FirebaseDatabase.getInstance().getReference()
 
         var lista= mutableListOf<Pedido>()
-        var userId = Utilities.getUserId(this)
+
+
+
 
         db_ref.child("tienda")
             .child("reservaCarta")
@@ -76,7 +101,7 @@ class UserArea : AppCompatActivity(){
 
                                             // Update RecyclerView adapter here
                                             runOnUiThread {
-                                                recycler.adapter?.notifyDataSetChanged()
+                                                recyclerOrders.adapter?.notifyDataSetChanged()
                                             }
                                         }
 
@@ -100,18 +125,77 @@ class UserArea : AppCompatActivity(){
         var adaptador = ReservaCartaAdapter(lista, this)
 
 
-        userNameTextView = findViewById(R.id.userName)
 
-        userNameTextView.text = Utilities.getUserName(this)
 
         db_ref= FirebaseDatabase.getInstance().getReference()
 
+        recyclerOrders=findViewById(R.id.OrdersRecyclerView)
+        recyclerOrders.adapter = adaptador
+        recyclerOrders.layoutManager= LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL,false)
+        recyclerOrders.setHasFixedSize(true)
+
+        Log.v("OrdersArea", "OrdersArea created")
+
+        var listaReservas = mutableListOf<ReservaEvento>()
+
+        db_ref.child("tienda")
+            .child("reservaEvento")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    listaReservas.clear()
+                    GlobalScope.launch ( Dispatchers.IO){
+                        snapshot.children.forEach{ hijo: DataSnapshot?->
+                            val reservaEvento = hijo?.getValue(ReservaEvento::class.java)
+
+                            if(reservaEvento!!.id_usuario == userId){
+                                var evento: Evento
+                                // Use a semaphore to synchronize: linearize the code
+                                var semaforo = CountDownLatch(1)
+
+                                db_ref.child("tienda")
+                                    .child("evento")
+                                    .child(reservaEvento.id_evento!!)
+                                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                                        override fun onDataChange(snapshot: DataSnapshot) {
+                                            evento = snapshot!!.getValue(Evento::class.java)!!
+
+                                            reservaEvento.nombre_evento = evento.nombre
+                                            reservaEvento.fecha_evento = Utilities.convertTimestampToDate(evento.fecha.toString())
+                                            reservaEvento.imagen_evento = evento.imagen
+
+                                            listaReservas.add(reservaEvento)
+                                            semaforo.countDown()
+
+                                            // Update RecyclerView adapter here
+                                            runOnUiThread {
+                                                recyclerEvents.adapter?.notifyDataSetChanged()
+                                            }
+                                        }
+
+                                        override fun onCancelled(error: DatabaseError) {
+                                            println(error.message)
+                                        }
+                                    })
+                                semaforo.await()
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    println(error.message)
+                }
+            })
+
+        var adaptadorReservas = ReservaEventoAdapter(listaReservas, this)
 
 
-        recycler=findViewById(R.id.OrdersRecyclerView)
-        recycler.adapter = adaptador
-        recycler.layoutManager= LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL,false)
-        recycler.setHasFixedSize(true)
+        recyclerEvents =findViewById(R.id.reservationsRecyclerView)
+        recyclerEvents.adapter = adaptadorReservas
+        recyclerEvents.layoutManager= LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL,false)
+        recyclerEvents.setHasFixedSize(true)
+
+        Log.v("ReservationsArea", "ReservationsArea created")
 
     }
 }

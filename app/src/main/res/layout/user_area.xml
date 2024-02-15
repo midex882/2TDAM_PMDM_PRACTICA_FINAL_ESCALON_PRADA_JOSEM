@@ -1,51 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/background"
-    android:padding="20dp">
+    android:background="@color/background">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
-    <androidx.cardview.widget.CardView
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/cardView"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        app:cardBackgroundColor="@color/transparent"
-        app:cardCornerRadius="25dp">
+        android:padding="20dp">
 
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/user"></ImageView>
+        <androidx.cardview.widget.CardView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/cardView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:cardBackgroundColor="@color/transparent"
+            app:cardCornerRadius="25dp">
 
-    </androidx.cardview.widget.CardView>
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/user"></ImageView>
 
-    <TextView
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/userName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:text="Usuario"></TextView>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardView"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:text="Usuario"></TextView>
 
 
-    <TextView
-        android:id="@+id/ordersTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/logo_red"
-        android:layout_marginTop="10dp"
-        android:textSize="20sp"
-        android:text="Pedidos realizados"></TextView>
+        <TextView
+            android:id="@+id/ordersTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo_red"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:text="Pedidos realizados"></TextView>
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -58,16 +64,40 @@
             android:orientation="horizontal"
             ></androidx.recyclerview.widget.RecyclerView>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/logOutButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="wrap_content"
-        android:text="Cerrar sesión"
-        android:textColor="@color/white"
-        android:textAllCaps="false"
-        android:background="@drawable/log_out_button_background"
-        android:layout_height="wrap_content"></androidx.appcompat.widget.AppCompatButton>
+        <TextView
+            android:id="@+id/reservationsTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/OrdersRecyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo_red"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:text="Reservas de eventos"></TextView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            app:layout_constraintTop_toBottomOf="@id/reservationsTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/reservationsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/reserva_evento"
+            android:orientation="horizontal"
+            ></androidx.recyclerview.widget.RecyclerView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/logOutButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:text="Cerrar sesión"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:background="@drawable/log_out_button_background"
+            android:layout_height="wrap_content"></androidx.appcompat.widget.AppCompatButton>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+

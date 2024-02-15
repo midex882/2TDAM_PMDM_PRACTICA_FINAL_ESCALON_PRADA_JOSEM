@@ -10,11 +10,15 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class EventoAdapter(private val game_list: MutableList<Evento>,var activity: AppCompatActivity): RecyclerView.Adapter<EventoAdapter.EventoViewHolder>(), Filterable {
     private lateinit var contexto: Context
@@ -32,7 +36,7 @@ class EventoAdapter(private val game_list: MutableList<Evento>,var activity: App
 
         holder.title.text = item_actual.nombre
         holder.platform.text = item_actual.descripcion
-        holder.price.text = item_actual.fecha.toString()
+        holder.price.text = Utilities.convertTimestampToDate(item_actual.fecha.toString())
 
         val URL: String? = when(item_actual.imagen){
             null -> null
@@ -54,20 +58,58 @@ class EventoAdapter(private val game_list: MutableList<Evento>,var activity: App
             .into(holder.cover)
 //
         holder.buy.setOnClickListener {
-            val id = db_ref.child("tienda").child("reservaEvento").push().key
-            val creation = System.currentTimeMillis().toInt()
+            val userId = Utilities.getUserId(contexto)
+            val eventoId = item_actual.id  // This assumes item_actual.id is the ID of the evento
 
-            val reservaEvento = ReservaEvento(
-                id,
-                Utilities.getUserId(contexto),
-                item_actual.id,  // This assumes item_actual.id is the ID of the evento
-                null,
-                null,
-                null,
-                null,
-            )
+            // Check if the user already has a reservation for the event
+            db_ref.child("tienda").child("reservaEvento").orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var alreadyRegistered = false
+                    for (snapshot in dataSnapshot.children) {
+                        val reservaEvento = snapshot.getValue(ReservaEvento::class.java)
+                        if (reservaEvento != null && reservaEvento.id_evento == eventoId) {
+                            alreadyRegistered = true
+                            break
+                        }
+                    }
 
-            Utilities.writeReservaEvento(db_ref, reservaEvento, id!!, activity)
+                    if (alreadyRegistered) {
+                        Toast.makeText(contexto, "You already have a reservation for this event.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val id = db_ref.child("tienda").child("reservaEvento").push().key
+                        val creation = System.currentTimeMillis().toInt()
+
+                        val reservaEvento = ReservaEvento(
+                            id,
+                            userId,
+                            eventoId,
+                            null,
+                            null,
+                            null,
+                            null,
+                        )
+
+                        // Update the aforo_ocupado field of the Evento object in the database
+                        db_ref.child("tienda").child("evento").child(eventoId).get().addOnSuccessListener { dataSnapshot ->
+                            val evento = dataSnapshot.getValue(Evento::class.java)
+                            if (evento != null) {
+                                if (evento.aforo_ocupado < evento.aforo_max) {
+                                    evento.aforo_ocupado += 1
+                                    db_ref.child("tienda").child("evento").child(eventoId).setValue(evento)
+                                    Utilities.writeReservaEvento(db_ref, reservaEvento, id!!, activity)
+                                } else {
+                                    Toast.makeText(contexto, "Evento completo. No se pudo reservar", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
         }
 
         holder.edit.setOnClickListener {

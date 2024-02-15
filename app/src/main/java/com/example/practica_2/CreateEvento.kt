@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -62,7 +61,7 @@ class CreateEvento() : AppCompatActivity() , CoroutineScope {
         url_cover = Uri.EMPTY
         var title = ""
         var description = ""
-        var date = 0
+        var date =""
         var max_attendance = 0
 
         db_ref = FirebaseDatabase.getInstance().getReference()
@@ -121,7 +120,9 @@ class CreateEvento() : AppCompatActivity() , CoroutineScope {
                 title = titleEdit.getText().toString()
                 description = descriptionEdit.getText().toString()
                 max_attendance = maxAttendance.text.toString().toInt()
-                date = Utilities.convertDateToTimestamp(dateEdit.text.toString()).toInt()
+                Log.v("covnverting", Utilities.convertDateToTimestamp(dateEdit.text.toString()))
+                date = Utilities.convertDateToTimestamp(dateEdit.text.toString())
+//                Log.v("date", date.toInt().toString())
 
 
                 var new_game: Evento?=null

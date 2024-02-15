@@ -3,6 +3,7 @@ package com.example.practica_2
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 
@@ -24,9 +25,10 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().add(R.id.headerFragment, fragment).commit()
 
         if(!Utilities.userLogged(this)){
+            Log.v("User not logged", "User not logged")
             val intent = Intent(this, Login::class.java)
             startActivity(intent)
-            recreate()
+            finish()
         }
 
         btnTienda = findViewById(R.id.btnTienda)
@@ -49,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         btnTienda.setOnClickListener {
             val intent = Intent(this, ListCartas::class.java)
             startActivity(intent)
-            recreate()
+            finish()
         }
 
         btnCreateCarta.setOnClickListener {

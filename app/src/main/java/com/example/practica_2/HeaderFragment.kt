@@ -26,17 +26,20 @@ class HeaderFragment : Fragment() {
         userNameTextView.setOnClickListener {
             val intent = Intent(activity, UserArea::class.java)
             startActivity(intent)
+            activity?.finish()
         }
 
             genericLogo.setOnClickListener {
                 val intent = Intent(activity, UserArea::class.java)
                 startActivity(intent)
+                activity?.finish()
             }
 
             val imageView = view.findViewById<ImageView>(R.id.logo)
             imageView.setOnClickListener {
                 val intent = Intent(activity, MainActivity::class.java)
                 startActivity(intent)
+                activity?.finish()
             }
         return view
     }

@@ -42,23 +42,12 @@ class UserAdapter(private var user_list: MutableList<Usuario>, context: Context)
 
         }
 //
-//        holder.see.setOnClickListener {
-//            val id = db_ref.child("tienda").child("reservaEvento").push().key
-//            val creation = System.currentTimeMillis().toInt()
-//
-//            val reservaCarta = Pedido(
-//                id,
-//                Utilities.getUserId(contexto),
-//                item_actual.id,  // This assumes item_actual.id is the ID of the evento
-//                null,
-//                null,
-//                null,
-//                null,
-//                creation
-//            )
-//
-//            Utilities.writeOrder(db_ref, reservaCarta, id!!)
-//        }
+        holder.see.setOnClickListener {
+             val intent = android.content.Intent(contexto, UserArea::class.java)
+                intent.putExtra("user_id", item_actual.id)
+                intent.putExtra("username", item_actual.username)
+                contexto.startActivity(intent)
+        }
 
     }
 

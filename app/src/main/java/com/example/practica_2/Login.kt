@@ -85,8 +85,10 @@ class Login : AppCompatActivity(), CoroutineScope {
                     }
 
                     editor.apply()
-
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
                     this_activity.finish()
+
                 }else{
                     Toast.makeText(
                         applicationContext, "Contraseña incorrecta", Toast.LENGTH_SHORT

@@ -137,26 +137,28 @@ class Utilities {
                 }
         }
 
-        fun convertDateToTimestamp(dateString: String): Long {
+        fun convertDateToTimestamp(dateString: String): String {
             val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val date = format.parse(dateString)
             val time = date?.time ?: 0
-            return Math.abs(time)
+            Log.v("time", time.toString())
+            return time.toString()
         }
 
-        fun convertTimestampToDate(timestamp: Int): String {
+        fun convertTimestampToDate(timestamp: String): String {
             val date = Date(timestamp.toLong())
             val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             return format.format(date)
         }
 
-        fun writeEvent(db_ref: DatabaseReference,
-                       title: String,
-                       description: String,
-                       max_attendance: Int,
-                       date: Int ,
-                       id: String?,
-                       url_firebase: String) {
+        fun writeEvent(
+            db_ref: DatabaseReference,
+            title: String,
+            description: String,
+            max_attendance: Int,
+            date: String,
+            id: String?,
+            url_firebase: String) {
             db_ref.child("tienda").child("evento").child(id!!).setValue(
                 Evento(id,
                     title,
