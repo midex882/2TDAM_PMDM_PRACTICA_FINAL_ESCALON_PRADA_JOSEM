@@ -12,11 +12,25 @@ class Configuracion : AppCompatActivity() {
         setContentView(R.layout.configuracion)
 
         val themeSwitch: Switch = findViewById(R.id.themeSwitch)
+        val dollarSwitch: Switch = findViewById(R.id.dollarSwitch)
 
         val sharedPref = getSharedPreferences("ThemePref", Context.MODE_PRIVATE)
         val isNightMode = sharedPref.getBoolean("isNightMode", false)
 
         themeSwitch.isChecked = isNightMode
+
+        dollarSwitch.setOnClickListener {
+            if (dollarSwitch.isChecked) {
+                if(Utilities.isDifferentDay(this)) {
+                    Utilities.getCurrencyRate(this)
+                }
+
+            } else {
+                Utilities.getCurrencyRate(this)
+            }
+
+            Utilities.saveCurrencyPreference(this, dollarSwitch.isChecked)
+        }
 
         themeSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {

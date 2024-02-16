@@ -10,6 +10,7 @@ class Pedido(var id: String?,
              var nombre_usuario: String?,
              var precio: Float?,
              var imagen : String?,
-             var time: String?) : Parcelable {
-    constructor() : this(null,"","","","",0.0F,"","")
+             var time: String?,
+             var processed: Boolean) : Parcelable {
+    constructor() : this(null,"","","","",0.0F,"","", false)
 }

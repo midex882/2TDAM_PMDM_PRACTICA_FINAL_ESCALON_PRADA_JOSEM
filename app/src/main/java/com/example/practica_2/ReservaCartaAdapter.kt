@@ -34,6 +34,11 @@ class ReservaCartaAdapter(private val game_list: MutableList<Pedido>, context: C
         holder.platform.text = item_actual.nombre_carta
         holder.price.text = item_actual.precio!!.toInt().toFloat().toString()+"€"
 
+        if (item_actual.processed) {
+            holder.status.text = "Procesado"
+            holder.status.setTextColor(contexto.resources.getColor(R.color.green))
+        }
+
 
         val URL: String? = when(item_actual.imagen){
             null -> null
@@ -54,6 +59,7 @@ class ReservaCartaAdapter(private val game_list: MutableList<Pedido>, context: C
         val title: TextView = itemView.findViewById(R.id.titleLayout)
         val platform: TextView = itemView.findViewById(R.id.platformLayout)
         val price: TextView = itemView.findViewById(R.id.priceLayout)
+        val status : TextView = itemView.findViewById(R.id.statusLayout )
     }
 
     override fun getFilter(): Filter {

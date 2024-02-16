@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.util.Util
 import com.google.firebase.database.FirebaseDatabase
 
 class CartaAdapter(private val game_list: MutableList<Carta>,private val activity: AppCompatActivity): RecyclerView.Adapter<CartaAdapter.CartaViewHolder>(), Filterable {
@@ -34,6 +35,16 @@ class CartaAdapter(private val game_list: MutableList<Carta>,private val activit
         Log.v("item_actual", item_actual.toString())
         holder.title.text = item_actual.nombre
         holder.platform.text = item_actual.categoria
+
+        if(Utilities.getCurrencyPreference(contexto)) {
+
+            var precio = item_actual.precio!!.toInt().toFloat() * Utilities.getSavedCurrencyRate(
+                contexto
+            )
+
+            holder.price.text = precio.toString() + "$"
+
+        }
         holder.price.text = item_actual.precio!!.toInt().toFloat().toString()+"€"
         if(Utilities.checkAdminStatus(contexto))
         {
@@ -82,7 +93,8 @@ class CartaAdapter(private val game_list: MutableList<Carta>,private val activit
                 null,
                 null,
                 null,
-                creation
+                creation,
+                false
             )
 
             Utilities.writeOrder(db_ref, reservaCarta, id!!, activity)

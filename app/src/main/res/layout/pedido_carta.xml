@@ -89,5 +89,17 @@
         app:layout_constraintTop_toBottomOf="@id/platformLayout"
 ></TextView>
 
+    <TextView
+        android:id="@+id/statusLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EN PROCESO"
+        android:textSize="25sp"
+        android:textColor="@color/logo_red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/priceLayout"
+        ></TextView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

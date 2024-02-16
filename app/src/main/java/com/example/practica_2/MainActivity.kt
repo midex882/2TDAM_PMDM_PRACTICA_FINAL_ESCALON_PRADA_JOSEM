@@ -27,6 +27,14 @@ class MainActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("ThemePref", Context.MODE_PRIVATE)
         val isNightMode = sharedPref.getBoolean("isNightMode", false)
 
+        if(Utilities.getCurrencyPreference(this)){
+            if (Utilities.isDifferentDay(this)) {
+                Utilities.getCurrencyRate(this)
+            }
+        }
+
+
+
         if (isNightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
@@ -46,6 +47,23 @@ class AdminOrdersAdapter(private val orders_list: MutableList<Pedido>, context: 
             .apply(Utilities.opcionesGlide(contexto))
             .transition(Utilities.transicion)
             .into(holder.cover)
+
+        if (item_actual.processed) {
+            holder.approve.visibility = View.INVISIBLE
+        }else{
+            holder.approve.setOnClickListener {
+                db_ref.child("tienda")
+                    .child("reservaCarta")
+                    .child(item_actual.id!!)
+                    .child("processed")
+                    .setValue(true)
+
+                holder.approve.visibility = View.INVISIBLE
+
+            }
+        }
+
+
     }
 
     override fun getItemCount(): Int = lista_filtrada.size
@@ -56,6 +74,7 @@ class AdminOrdersAdapter(private val orders_list: MutableList<Pedido>, context: 
         val user: TextView = itemView.findViewById(R.id.userLayout)
         val price: TextView = itemView.findViewById(R.id.priceLayout)
         val date: TextView = itemView.findViewById(R.id.dateLayout)
+        val approve : Button = itemView.findViewById(R.id.processButton)
     }
 
     override fun getFilter(): Filter {

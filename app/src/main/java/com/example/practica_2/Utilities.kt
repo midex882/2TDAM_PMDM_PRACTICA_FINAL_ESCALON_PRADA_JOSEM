@@ -15,13 +15,92 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.tasks.await
+import okhttp3.Call
+import okhttp3.Callback
 import java.sql.Date
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import org.json.JSONObject
+import java.io.IOException
+import java.util.Date as Date1
+
 
 class Utilities {
     companion object{
+        fun getSavedDate(context: Context): String {
+            val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            return sharedPreferences.getString("lastDate", "").toString()
+        }
+
+        fun saveCurrencyPreference(context: Context, isDollar: Boolean) {
+            val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putBoolean("isDollar", isDollar)
+            editor.apply()
+        }
+
+        fun getCurrencyPreference(context: Context): Boolean {
+            val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            return sharedPreferences.getBoolean("isDollar", false)
+        }
+
+        fun saveCurrentDate(context: Context) {
+            val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date1())
+            editor.putString("lastDate", currentDate)
+            editor.apply()
+        }
+
+        fun isDifferentDay(context: Context): Boolean {
+            val savedDate = getSavedDate(context)
+            val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date1())
+            return savedDate != currentDate
+        }
+
+        fun getSavedCurrencyRate(context: Context): Float {
+            val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            return sharedPreferences.getFloat("rate", 0.0f)
+        }
+
+        fun getCurrencyRate(context: Context) {
+            if (isDifferentDay(context)) {
+                val client = OkHttpClient()
+                val request = Request.Builder()
+                    .url("https://api.exchangerate-api.com/v4/latest/USD")
+                    .build()
+
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        e.printStackTrace()
+                    }
+
+                    override fun onResponse(call: Call, response: Response) {
+                        response.use {
+                            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+                            val jsonObject = JSONObject(response.body!!.string())
+                            val rate = jsonObject.getJSONObject("rates").getDouble("EUR")
+
+                            // Save the rate to SharedPreferences
+                            val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                            val editor = sharedPreferences.edit()
+                            editor.putFloat("rate", rate.toFloat())
+                            editor.apply()
+
+                            // Save the current date to SharedPreferences
+                            saveCurrentDate(context)
+                        }
+                    }
+                })
+            }
+            saveCurrentDate(context)
+            Log.v("saving", "Currency rate saved")
+        }
 
         fun userLogged(context: Context): Boolean {
             val sharedPreferencesFileName = "UserPreferences"
