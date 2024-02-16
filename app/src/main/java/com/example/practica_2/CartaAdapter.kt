@@ -68,7 +68,7 @@ class CartaAdapter(private val game_list: MutableList<Carta>,private val activit
         holder.buy.setOnClickListener {
             Log.v("item_actual",item_actual.toString())
             val id = db_ref.child("tienda").child("reservaCarta").push().key
-            val creation = System.currentTimeMillis().toInt()
+            val creation = System.currentTimeMillis().toString()
 
             Log.v("userId", Utilities.getUserId(contexto))
             Log.v("username", Utilities.getUserName(contexto))

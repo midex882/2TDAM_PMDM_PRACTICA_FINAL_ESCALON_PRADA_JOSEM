@@ -1,11 +1,13 @@
 package com.example.practica_2
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import androidx.appcompat.app.AppCompatDelegate
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,10 +18,21 @@ class MainActivity : AppCompatActivity() {
     lateinit var btnCreateEvent: Button
     lateinit var btnUsers: Button
     lateinit var btnCreator: Button
+    lateinit var btnOrders: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val sharedPref = getSharedPreferences("ThemePref", Context.MODE_PRIVATE)
+        val isNightMode = sharedPref.getBoolean("isNightMode", false)
+
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
 
         val fragment = HeaderFragment()
 
@@ -38,16 +51,19 @@ class MainActivity : AppCompatActivity() {
         btnCreateEvent = findViewById(R.id.btnCreateEvent)
         btnUsers = findViewById(R.id.btnListUsers)
         btnCreator = findViewById(R.id.btnCreator)
+        btnOrders = findViewById(R.id.btnListOrders)
 
         if(Utilities.checkAdminStatus(this))
         {
             btnCreateCarta.visibility = View.VISIBLE
             btnCreateEvent.visibility = View.VISIBLE
             btnUsers.visibility = View.VISIBLE
+            btnOrders.visibility = View.VISIBLE
         }else{
             btnCreateCarta.visibility = View.INVISIBLE
             btnCreateEvent.visibility = View.INVISIBLE
             btnUsers.visibility = View.INVISIBLE
+            btnOrders.visibility = View.INVISIBLE
         }
 
         btnTienda.setOnClickListener {
@@ -82,6 +98,12 @@ class MainActivity : AppCompatActivity() {
 
         btnCreator.setOnClickListener {
             val intent = Intent(this, Creator::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        btnOrders.setOnClickListener {
+            val intent = Intent(this, ListOrders::class.java)
             startActivity(intent)
             finish()
         }

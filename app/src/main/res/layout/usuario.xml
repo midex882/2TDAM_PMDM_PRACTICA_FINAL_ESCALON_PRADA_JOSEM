@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/dark_grey"
     android:padding="10dp">
 
     <androidx.cardview.widget.CardView
@@ -32,7 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:text="cochino69"
-        android:textColor="@color/white"
         android:layout_marginRight="10dp"
         android:singleLine="false"
         android:scrollHorizontally="false"
@@ -44,7 +42,6 @@
         app:layout_constraintStart_toEndOf="@id/pictureCard"
         android:layout_marginLeft="20dp"
         android:text="cochino69@gmail.com"
-        android:textColor="@color/light_grey"
         android:layout_width="150dp"
         android:layout_height="wrap_content"></TextView>
 
@@ -54,7 +51,6 @@
         app:layout_constraintStart_toEndOf="@id/pictureCard"
         android:layout_marginLeft="20dp"
         android:text="Manuel Jimenez"
-        android:textColor="@color/light_grey"
         android:layout_width="150dp"
         android:layout_height="wrap_content"></TextView>
 

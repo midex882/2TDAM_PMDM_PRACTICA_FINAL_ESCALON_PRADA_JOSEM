@@ -2,8 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="?attr/backgroundColor">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/title"
@@ -11,17 +10,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="30dp"
-        android:textColor="?attr/textFillColor"
         android:textSize="25sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Configuración"></TextView>
 
-    <Switch
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/title"
+    <TextView
+        android:layout_marginLeft="20dp"
+        app:layout_constraintEnd_toStartOf="@id/themeSwitch"
+        app:layout_constraintTop_toBottomOf="@id/title"
         android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Modo oscuro?: "></TextView>
+
+    <Switch
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="60dp"
+        android:scaleX="2"
+        android:scaleY="2"
         android:id="@+id/themeSwitch"
         android:layout_width="100dp"
         android:layout_height="wrap_content"></Switch>

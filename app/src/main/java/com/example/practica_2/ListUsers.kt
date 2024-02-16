@@ -13,6 +13,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.util.concurrent.CountDownLatch
 
 class  ListUsers : AppCompatActivity(){
     private lateinit var searchEditText: EditText
@@ -36,26 +40,79 @@ class  ListUsers : AppCompatActivity(){
 
         var lista : MutableList<Usuario> = mutableListOf()
 
-        db_ref.child("tienda")
-            .child("usuario")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    lista.clear()
-                    snapshot.children.forEach{hijo: DataSnapshot?
-                        ->
-                        val pojo_user = hijo?.getValue(Usuario::class.java)
-                        lista.add(pojo_user!!)
+        val eventoId = intent.getStringExtra("evento")
+        if (eventoId != null) {
+            // The extra exists, query the database for all users that have a reservation to the event with the same id
+            db_ref.child("tienda")
+                .child("reservaEvento")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        lista.clear()
+                        GlobalScope.launch ( Dispatchers.IO){
+                            snapshot.children.forEach{ hijo: DataSnapshot?->
+                                val pojo_reserva=hijo?.getValue(ReservaEvento::class.java)
+                                if(pojo_reserva!!.id_evento==eventoId){
+                                    var pojo_usuario:Usuario= Usuario()
+                                    //USAMOS EL SEMAFORO PARA SINCRONIZAR: LINEALIZAMOS EL CODIGO
+                                    var semaforo = CountDownLatch(1)
+
+                                    db_ref.child("tienda")
+                                        .child("usuario")
+                                        .child(pojo_reserva!!.id_usuario)
+                                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                                            override fun onDataChange(snapshot: DataSnapshot) {
+                                                pojo_usuario = snapshot!!.getValue(Usuario::class.java)!!
+                                                //RELLENAR LOS DATOS PARA EL ADAPTADOR
+                                                //PARA PODER BORRAR LA INSCRIPCION
+                                                pojo_usuario.id=pojo_reserva.id_usuario
+                                                lista.add(pojo_usuario)
+                                                semaforo.countDown()
+                                            }
+
+                                            override fun onCancelled(error: DatabaseError) {
+                                                println(error.message)
+                                            }
+                                        })
+                                    semaforo.await()
+
+                                }
+                            }
+
+                            runOnUiThread {
+                                recyclerView.adapter?.notifyDataSetChanged()
+
+                            }
+                        }
                     }
-                    recyclerView.adapter?.notifyDataSetChanged()
-                    (recyclerView.adapter as UserAdapter).userListFull = lista
 
-                }
+                    override fun onCancelled(error: DatabaseError) {
+                        println(error.message)
+                    }
+                })
+        }else {
+            db_ref.child("tienda")
+                .child("usuario")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        lista.clear()
+                        snapshot.children.forEach{hijo: DataSnapshot?
+                            ->
+                            val pojo_user = hijo?.getValue(Usuario::class.java)
+                            lista.add(pojo_user!!)
+                        }
+                        recyclerView.adapter?.notifyDataSetChanged()
+                        (recyclerView.adapter as UserAdapter).userListFull = lista
 
-                override fun onCancelled(error: DatabaseError) {
-                    println(error.message)
-                }
+                    }
 
-            })
+                    override fun onCancelled(error: DatabaseError) {
+                        println(error.message)
+                    }
+
+                })
+        }
+
+
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)

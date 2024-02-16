@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/dark_grey"
     android:padding="10dp">
 
     <androidx.cardview.widget.CardView
@@ -75,7 +74,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:text="Evento de prueba"
-        android:textColor="@color/white"
         android:layout_marginRight="10dp"
         android:singleLine="false"
         android:scrollHorizontally="false"
@@ -87,7 +85,6 @@
         app:layout_constraintStart_toEndOf="@id/pictureCard"
         android:layout_marginLeft="20dp"
         android:text="Evento para jugar y comer platanos"
-        android:textColor="@color/light_grey"
         android:layout_width="150dp"
         android:layout_height="wrap_content"></TextView>
 
@@ -98,7 +95,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="23/05/2024"
-        android:textColor="@color/white"
         ></TextView>
 
 

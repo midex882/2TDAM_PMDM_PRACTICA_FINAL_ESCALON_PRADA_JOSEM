@@ -46,8 +46,71 @@ class EventoAdapter(private val game_list: MutableList<Evento>,var activity: App
         if(Utilities.checkAdminStatus(contexto))
         {
             holder.edit.visibility = View.VISIBLE
+            holder.buy.text = "Ver"
+
+            holder.buy.setOnClickListener {
+                val activity = Intent(contexto, ListUsers::class.java)
+                activity.putExtra("evento", item_actual.id)
+                contexto.startActivity(activity)
+            }
+
         }else{
             holder.edit.visibility = View.INVISIBLE
+            holder.buy.setOnClickListener {
+                val userId = Utilities.getUserId(contexto)
+                val eventoId = item_actual.id  // This assumes item_actual.id is the ID of the evento
+
+                // Check if the user already has a reservation for the event
+                db_ref.child("tienda").child("reservaEvento").orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        var alreadyRegistered = false
+                        for (snapshot in dataSnapshot.children) {
+                            val reservaEvento = snapshot.getValue(ReservaEvento::class.java)
+                            if (reservaEvento != null && reservaEvento.id_evento == eventoId) {
+                                alreadyRegistered = true
+                                break
+                            }
+                        }
+
+                        if (alreadyRegistered) {
+                            Toast.makeText(contexto, "You already have a reservation for this event.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            val id = db_ref.child("tienda").child("reservaEvento").push().key
+                            val creation = System.currentTimeMillis().toInt()
+
+                            val reservaEvento = ReservaEvento(
+                                id,
+                                userId,
+                                eventoId,
+                                null,
+                                null,
+                                null,
+                                null,
+                            )
+
+                            // Update the aforo_ocupado field of the Evento object in the database
+                            db_ref.child("tienda").child("evento").child(eventoId).get().addOnSuccessListener { dataSnapshot ->
+                                val evento = dataSnapshot.getValue(Evento::class.java)
+                                if (evento != null) {
+                                    if (evento.aforo_ocupado < evento.aforo_max) {
+                                        evento.aforo_ocupado += 1
+                                        db_ref.child("tienda").child("evento").child(eventoId).setValue(evento)
+                                        Utilities.writeReservaEvento(db_ref, reservaEvento, id!!, activity)
+                                    } else {
+                                        Toast.makeText(contexto, "Evento completo. No se pudo reservar", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
+            }
+
 
         }
 
@@ -57,60 +120,6 @@ class EventoAdapter(private val game_list: MutableList<Evento>,var activity: App
             .transition(Utilities.transicion)
             .into(holder.cover)
 //
-        holder.buy.setOnClickListener {
-            val userId = Utilities.getUserId(contexto)
-            val eventoId = item_actual.id  // This assumes item_actual.id is the ID of the evento
-
-            // Check if the user already has a reservation for the event
-            db_ref.child("tienda").child("reservaEvento").orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    var alreadyRegistered = false
-                    for (snapshot in dataSnapshot.children) {
-                        val reservaEvento = snapshot.getValue(ReservaEvento::class.java)
-                        if (reservaEvento != null && reservaEvento.id_evento == eventoId) {
-                            alreadyRegistered = true
-                            break
-                        }
-                    }
-
-                    if (alreadyRegistered) {
-                        Toast.makeText(contexto, "You already have a reservation for this event.", Toast.LENGTH_SHORT).show()
-                    } else {
-                        val id = db_ref.child("tienda").child("reservaEvento").push().key
-                        val creation = System.currentTimeMillis().toInt()
-
-                        val reservaEvento = ReservaEvento(
-                            id,
-                            userId,
-                            eventoId,
-                            null,
-                            null,
-                            null,
-                            null,
-                        )
-
-                        // Update the aforo_ocupado field of the Evento object in the database
-                        db_ref.child("tienda").child("evento").child(eventoId).get().addOnSuccessListener { dataSnapshot ->
-                            val evento = dataSnapshot.getValue(Evento::class.java)
-                            if (evento != null) {
-                                if (evento.aforo_ocupado < evento.aforo_max) {
-                                    evento.aforo_ocupado += 1
-                                    db_ref.child("tienda").child("evento").child(eventoId).setValue(evento)
-                                    Utilities.writeReservaEvento(db_ref, reservaEvento, id!!, activity)
-                                } else {
-                                    Toast.makeText(contexto, "Evento completo. No se pudo reservar", Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                        }
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-            })
-        }
 
         holder.edit.setOnClickListener {
             val activity = Intent(contexto,EditEvento::class.java)

@@ -1,12 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.Practica_2" parent="Theme.Material3.DayNight.NoActionBar">
-        <item   name="backgroundColor">@color/white</item>
+        <item   name="backgroundColor">@color/orange</item>
         <item name="textFillColor">@color/black</item>
     </style>
 
     <style name="Theme.Practica_2.Night" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="backgroundColor">@color/background</item>
-        <item name="textFillColor">@color/white</item>
+        <item name="colorPrimary">@color/dark_grey</item>
+
     </style>
+  <!-- Base application theme. -->
 </resources>

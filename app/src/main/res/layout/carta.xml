@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/dark_grey"
     android:padding="10dp">
 
     <androidx.cardview.widget.CardView
@@ -70,7 +69,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:text="Lucky 38 cover"
-        android:textColor="@color/white"
         android:layout_marginRight="10dp"
         android:singleLine="false"
         android:scrollHorizontally="false"
@@ -82,7 +80,6 @@
         app:layout_constraintStart_toEndOf="@id/pictureCard"
         android:layout_marginLeft="20dp"
         android:text="Fallout New Vegas caravan deck"
-        android:textColor="@color/light_grey"
         android:layout_width="200dp"
         android:layout_height="wrap_content"></TextView>
 
@@ -94,7 +91,6 @@
         android:layout_marginRight="20dp"
         android:text="5.00€"
         android:textSize="45sp"
-        android:textColor="@color/light_grey"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></TextView>
 
