@@ -2,9 +2,12 @@ package com.example.practica_2
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
@@ -76,40 +79,25 @@ class ListCartas : AppCompatActivity() {
         recycler.adapter = adaptador
         recycler.layoutManager = LinearLayoutManager(applicationContext)
         recycler.setHasFixedSize(true)
-        spinnerLayout = findViewById(R.id.spinnerOptions)
 
         Log.v("test", lista.toString())
 
-        spinnerLayout.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View?, position: Int, id: Long) {
-                val selectedOption = parentView?.getItemAtPosition(position).toString()
-
-                when (selectedOption) {
-                    "a-b" -> {
-                        lista.sortBy { it.nombre }
-                        Toast.makeText(applicationContext, "Option 'a-b' selected", Toast.LENGTH_SHORT).show()
-                    }
-                    "por valoración" -> {
-                        lista.sortBy { it.precio }
-                        Toast.makeText(applicationContext, "Option 'por precio' selected", Toast.LENGTH_SHORT).show()
-                    }
-                    // Add more cases as needed
-
-                }
-                recycler.adapter?.notifyDataSetChanged()
-
+        val searchEditText = findViewById<EditText>(R.id.search)
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // No action needed here
             }
 
-            override fun onNothingSelected(parentView: AdapterView<*>?) {
-                // Handle case where nothing is selected
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                // No action needed here
             }
-        }
 
+            override fun afterTextChanged(s: Editable) {
+                (recycler.adapter as CartaAdapter).filter.filter(s.toString())
+                Log.v("filtering", "filtering ${s.toString()} ")
+            }
+        })
 
-        volver.setOnClickListener {
-            val activity = Intent(applicationContext, MainActivity::class.java)
-            startActivity(activity)
-        }
     }
 
 //    override fun onCreateOptionsMenu(menu: Menu?): Boolean {

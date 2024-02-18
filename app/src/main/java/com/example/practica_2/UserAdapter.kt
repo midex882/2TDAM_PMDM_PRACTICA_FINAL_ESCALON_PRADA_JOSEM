@@ -44,8 +44,8 @@ class UserAdapter(private var user_list: MutableList<Usuario>, context: Context)
 //
         holder.see.setOnClickListener {
              val intent = android.content.Intent(contexto, UserArea::class.java)
-                intent.putExtra("user_id", item_actual.id)
-                intent.putExtra("username", item_actual.username)
+            intent.putExtra("user_id", item_actual.id)
+            intent.putExtra("username", item_actual.username)
                 contexto.startActivity(intent)
         }
 

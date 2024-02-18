@@ -28,7 +28,9 @@ class MainActivity : AppCompatActivity() {
         val isNightMode = sharedPref.getBoolean("isNightMode", false)
 
         if(Utilities.getCurrencyPreference(this)){
+            Log.v("Currency", "Currency is set")
             if (Utilities.isDifferentDay(this)) {
+                Log.v("Is different day", "Is different day")
                 Utilities.getCurrencyRate(this)
             }
         }

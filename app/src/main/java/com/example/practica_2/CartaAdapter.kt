@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.util.Util
 import com.google.firebase.database.FirebaseDatabase
 
-class CartaAdapter(private val game_list: MutableList<Carta>,private val activity: AppCompatActivity): RecyclerView.Adapter<CartaAdapter.CartaViewHolder>(), Filterable {
+class CartaAdapter(private var game_list: MutableList<Carta>,private val activity: AppCompatActivity): RecyclerView.Adapter<CartaAdapter.CartaViewHolder>(), Filterable {
     private lateinit var contexto: Context
     private var lista_filtrada = game_list
     private var db_ref = FirebaseDatabase.getInstance().getReference()
@@ -37,15 +37,18 @@ class CartaAdapter(private val game_list: MutableList<Carta>,private val activit
         holder.platform.text = item_actual.categoria
 
         if(Utilities.getCurrencyPreference(contexto)) {
+            Log.v("converting to dollars","converting to dollars")
 
-            var precio = item_actual.precio!!.toInt().toFloat() * Utilities.getSavedCurrencyRate(
+            var precio = Math.round(item_actual.precio!!.toInt().toFloat() * Utilities.getSavedCurrencyRate(
                 contexto
-            )
+            ))
 
             holder.price.text = precio.toString() + "$"
 
+        }else{
+            holder.price.text = item_actual.precio!!.toInt().toFloat().toString()+"€"
         }
-        holder.price.text = item_actual.precio!!.toInt().toFloat().toString()+"€"
+
         if(Utilities.checkAdminStatus(contexto))
         {
             holder.edit.visibility = View.VISIBLE
@@ -149,26 +152,38 @@ class CartaAdapter(private val game_list: MutableList<Carta>,private val activit
 //    }
 
     override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val filterResults = FilterResults()
-                val searchText = constraint?.toString()?.toLowerCase()
+        return cartaFilter
+    }
 
-                if (searchText.isNullOrEmpty()) {
-                    filterResults.values = game_list
-                } else {
-                    val filteredList = game_list.filter {
-                        it.nombre?.toLowerCase()?.contains(searchText) == true
+    var cardListFull: MutableList<Carta> = game_list
+
+
+    private val cartaFilter: Filter = object : Filter() {
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            Log.v("game_list", game_list.toString())
+            Log.v("cardlistfull", cardListFull.toString())
+            var filteredList: MutableList<Carta> = ArrayList()
+            if (constraint == null || constraint.isEmpty()) {
+                filteredList.addAll(cardListFull)
+            } else {
+                val filterPattern = constraint.toString().toLowerCase().trim { it <= ' ' }
+                Log.v("filtering", "filtering ${filterPattern} ")
+                for (item in cardListFull) {
+                    if (item.nombre.toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item)
                     }
-                    filterResults.values = filteredList
                 }
-
-                return filterResults
             }
+            val results = FilterResults()
+            results.values = filteredList
+            return results
+        }
 
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                notifyDataSetChanged()
-            }
+        override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+            game_list = (results.values as List<Carta>).toMutableList()
+            Log.v("publishing results", "publishing results ${game_list} ")
+            lista_filtrada = game_list
+            notifyDataSetChanged()
         }
     }
 

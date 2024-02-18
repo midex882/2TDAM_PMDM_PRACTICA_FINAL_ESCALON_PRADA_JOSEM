@@ -32,7 +32,19 @@ class ReservaCartaAdapter(private val game_list: MutableList<Pedido>, context: C
 
         holder.title.text = item_actual.nombre_carta
         holder.platform.text = item_actual.nombre_carta
-        holder.price.text = item_actual.precio!!.toInt().toFloat().toString()+"€"
+
+        if(Utilities.getCurrencyPreference(contexto)) {
+            var precio = Math.round(
+                item_actual.precio!!.toInt().toFloat() * Utilities.getSavedCurrencyRate(
+                    contexto
+                )
+            )
+
+            holder.price.text = precio.toString() + "$"
+        }
+        else{
+            holder.price.text = item_actual.precio!!.toInt().toFloat().toString()+"€"
+        }
 
         if (item_actual.processed) {
             holder.status.text = "Procesado"

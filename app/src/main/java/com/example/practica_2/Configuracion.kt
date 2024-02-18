@@ -16,8 +16,10 @@ class Configuracion : AppCompatActivity() {
 
         val sharedPref = getSharedPreferences("ThemePref", Context.MODE_PRIVATE)
         val isNightMode = sharedPref.getBoolean("isNightMode", false)
+        val isDollar = Utilities.getCurrencyPreference(this)
 
         themeSwitch.isChecked = isNightMode
+        dollarSwitch.isChecked = isDollar
 
         dollarSwitch.setOnClickListener {
             if (dollarSwitch.isChecked) {

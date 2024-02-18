@@ -21,6 +21,8 @@ import java.util.concurrent.CountDownLatch
 class UserArea : AppCompatActivity(){
 
     lateinit var userNameTextView : TextView
+    lateinit var ordersTextVuew : TextView
+    lateinit var reservationsTextView : TextView
     lateinit var recyclerOrders: androidx.recyclerview.widget.RecyclerView
     lateinit var recyclerEvents: androidx.recyclerview.widget.RecyclerView
     lateinit var db_ref : com.google.firebase.database.DatabaseReference
@@ -41,6 +43,8 @@ class UserArea : AppCompatActivity(){
         configurationButton = findViewById(R.id.configurationButton)
 
         userNameTextView = findViewById(R.id.userName)
+        ordersTextVuew = findViewById(R.id.ordersTextView)
+        reservationsTextView = findViewById(R.id.reservationsTextView)
 
 
         logOutButton = findViewById(R.id.logOutButton)
@@ -128,6 +132,9 @@ class UserArea : AppCompatActivity(){
                 }
             })
 
+        if (lista.isEmpty()) {
+            ordersTextVuew.visibility = TextView.INVISIBLE
+        }
 
         var adaptador = ReservaCartaAdapter(lista, this)
 
@@ -193,6 +200,10 @@ class UserArea : AppCompatActivity(){
                     println(error.message)
                 }
             })
+
+        if (listaReservas.isEmpty()) {
+            reservationsTextView.visibility = TextView.INVISIBLE
+        }
 
         var adaptadorReservas = ReservaEventoAdapter(listaReservas, this)
 
