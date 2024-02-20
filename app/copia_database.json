@@ -1,0 +1,57 @@
+{
+  "carta": {
+    "-Npu_ImA5gEJkaGUMXLA": {
+      "categoria": "Cartas fnv",
+      "disponible": true,
+      "id": "-Npu_ImA5gEJkaGUMXLA",
+      "imagen": "https://firebasestorage.googleapis.com/v0/b/crud-cartas.appspot.com/o/tienda%2Fimagen%2F-Npu_ImA5gEJkaGUMXLA?alt=media&token=f7191bf4-6b95-4850-85c0-fbe6a65bc0f5",
+      "nombre": "DOS DE TRBOLES",
+      "precio": 10
+    }
+  },
+  "evento": {
+    "-NqhcipgU3EGYnh1Bf4K": {
+      "aforo_max": 70,
+      "aforo_ocupado": 1,
+      "descripcion": "dasdsd",
+      "fecha": "1708041600000",
+      "id": "-NqhcipgU3EGYnh1Bf4K",
+      "imagen": "https://firebasestorage.googleapis.com/v0/b/crud-cartas.appspot.com/o/tienda%2Fimagen%2F-NqhciY_klkF8q_T1of3?alt=media&token=76fa4b8a-b5f5-4e11-b7f6-96dae9698059",
+      "nombre": "dasdsad"
+    }
+  },
+  "reservaCarta": {
+    "-Nr1inWJ-wtNJ3d93BoC": {
+      "id": "-Nr1inWJ-wtNJ3d93BoC",
+      "id_carta": "-Nq3cO_eNdEb9yGVnQQM",
+      "id_usuario": "-Np_h6fWfu6etxfBco5n",
+      "processed": true,
+      "time": "1708369065915"
+    }
+  },
+  "reservaEvento": {
+    "-Nr1sbLT3qQmXjfXS0uN": {
+      "id": "-Nr1sbLT3qQmXjfXS0uN",
+      "id_evento": "-NqhcipgU3EGYnh1Bf4K",
+      "id_usuario": "-Npudz_UjG-lCkGpYrxo"
+    }
+  },
+  "usuario": {
+    "-Np_h6fWfu6etxfBco5n": {
+      "admin": true,
+      "contrasena": "admin",
+      "correo": "admin",
+      "id": "-Np_h6fWfu6etxfBco5n",
+      "nombre": "admin",
+      "username": "admin"
+    },
+    "-Npudz_UjG-lCkGpYrxo": {
+      "admin": false,
+      "contrasena": "1234",
+      "correo": "elreydelascamas@gmail.com",
+      "id": "-Npudz_UjG-lCkGpYrxo",
+      "nombre": "eduardo lamas",
+      "username": "elreydelascamas"
+    }
+  }
+}
