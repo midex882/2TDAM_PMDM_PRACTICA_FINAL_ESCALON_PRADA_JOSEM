@@ -132,10 +132,6 @@ class UserArea : AppCompatActivity(){
                 }
             })
 
-        if (lista.isEmpty()) {
-            ordersTextVuew.visibility = TextView.INVISIBLE
-        }
-
         var adaptador = ReservaCartaAdapter(lista, this)
 
 
@@ -200,10 +196,6 @@ class UserArea : AppCompatActivity(){
                     println(error.message)
                 }
             })
-
-        if (listaReservas.isEmpty()) {
-            reservationsTextView.visibility = TextView.INVISIBLE
-        }
 
         var adaptadorReservas = ReservaEventoAdapter(listaReservas, this)
 

@@ -2,27 +2,40 @@ package com.example.practica_2
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.firebase.Firebase
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.database
+import org.checkerframework.checker.nullness.qual.NonNull
+
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var btnTienda : Button
-    lateinit var btnLogin : Button
     lateinit var btnCreateCarta : Button
     lateinit var btnEvents: Button
     lateinit var btnCreateEvent: Button
     lateinit var btnUsers: Button
     lateinit var btnCreator: Button
     lateinit var btnOrders: Button
+    private lateinit var databaseReservas : DatabaseReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        databaseReservas = Firebase.database.getReference("reservaCarta")
 
         val sharedPref = getSharedPreferences("ThemePref", Context.MODE_PRIVATE)
         val isNightMode = sharedPref.getBoolean("isNightMode", false)
@@ -54,6 +67,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+
+
 
         btnTienda = findViewById(R.id.btnTienda)
         btnCreateCarta = findViewById(R.id.btnCreateCarta)
